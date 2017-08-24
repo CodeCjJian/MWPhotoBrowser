@@ -36,7 +36,7 @@
 	NSTimer *_controlVisibilityTimer;
 	UIBarButtonItem *_previousButton, *_nextButton, *_actionButton, *_doneButton;
     MBProgressHUD *_progressHUD;
-    
+     UIBarButtonItem *_deleteButton;
     // Grid
     MWGridViewController *_gridController;
     UIBarButtonItem *_gridPreviousLeftNavItem;
