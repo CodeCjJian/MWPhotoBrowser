@@ -144,7 +144,7 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
     if (!_enableGrid) _startOnGrid = NO;
 	
 	// View
-	self.view.backgroundColor = [UIColor blackColor];
+	self.view.backgroundColor = [UIColor whiteColor];
     self.view.clipsToBounds = YES;
 	
 	// Setup paging scrolling view
@@ -155,17 +155,24 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
 	_pagingScrollView.delegate = self;
 	_pagingScrollView.showsHorizontalScrollIndicator = NO;
 	_pagingScrollView.showsVerticalScrollIndicator = NO;
-	_pagingScrollView.backgroundColor = [UIColor blackColor];
+	_pagingScrollView.backgroundColor = [UIColor whiteColor];
     _pagingScrollView.contentSize = [self contentSizeForPagingScrollView];
 	[self.view addSubview:_pagingScrollView];
-	    _deleteButton=[[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(deletePhoto:)];
+//    _deleteButton = [[UIBarButtonItem alloc]initWithTitle:@"删除" style:UIBarButtonItemStylePlain target:self action:@selector(deletePhoto:)];
+    _deleteButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(deletePhoto:)];
+    _deleteButton.tintColor = [UIColor colorWithRed:255/255.0 green:99/255.0 blue:70/255.0 alpha:1];
+//    _deleteButton = [[UIBarButtonItem alloc]initWithTitle:@"删除" style:UIBarButtonItemStylePlain target:self action:]];
+//        _deleteButton=[[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(deletePhoto:)];
     // Toolbar
     _toolbar = [[UIToolbar alloc] initWithFrame:[self frameForToolbarAtOrientation:self.interfaceOrientation]];
     _toolbar.tintColor = [UIColor whiteColor];
     _toolbar.barTintColor = nil;
+    _toolbar.translucent = NO;
+    _toolbar.clipsToBounds = YES;
     [_toolbar setBackgroundImage:nil forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsDefault];
     [_toolbar setBackgroundImage:nil forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsLandscapePhone];
-    _toolbar.barStyle = UIBarStyleBlackTranslucent;
+//    _toolbar.barStyle = UIBarStyleDefault;
+    _toolbar.backgroundColor = [UIColor whiteColor];
     _toolbar.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
     
     // Toolbar Items
@@ -178,6 +185,7 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
     }
     if (self.displayActionButton) {
         _actionButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(actionButtonPressed:)];
+        _actionButton.tintColor = [UIColor colorWithRed:255/255.0 green:99/255.0 blue:70/255.0 alpha:1];
     }
     
     // Update
@@ -209,6 +217,7 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
     if ([self.navigationController.viewControllers objectAtIndex:0] == self) {
         // We're first on stack so show done button
         _doneButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"完成", nil) style:UIBarButtonItemStylePlain target:self action:@selector(doneButtonPressed:)];
+        _doneButton.tintColor = [UIColor colorWithRed:97/255.0 green:120/255.0 blue:240/255.0 alpha:1];
         // Set appearance
         [_doneButton setBackgroundImage:nil forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
         [_doneButton setBackgroundImage:nil forState:UIControlStateNormal barMetrics:UIBarMetricsLandscapePhone];
@@ -446,11 +455,15 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
 - (void)setNavBarAppearance:(BOOL)animated {
     [self.navigationController setNavigationBarHidden:NO animated:animated];
     UINavigationBar *navBar = self.navigationController.navigationBar;
-    navBar.tintColor = [UIColor whiteColor];
+    navBar.tintColor = [UIColor colorWithRed:189/255.0 green:189/255.0 blue:189/255.0 alpha:1];
+    UIFont *font = [UIFont fontWithName:@"Avenir-Medium" size:15];
+     NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:[UIColor colorWithRed:85/255.0 green:85/255.0 blue:85/255.0 alpha:1],NSForegroundColorAttributeName,font,NSFontAttributeName, nil];
+    navBar.titleTextAttributes = dict;
+    
     navBar.barTintColor = nil;
-    navBar.shadowImage = nil;
-    navBar.translucent = YES;
-    navBar.barStyle = UIBarStyleBlackTranslucent;
+    navBar.shadowImage = [UIImage new];
+    navBar.translucent = NO;
+//    navBar.barStyle = UIBarStyleBlackTranslucent;
     [navBar setBackgroundImage:nil forBarMetrics:UIBarMetricsDefault];
     [navBar setBackgroundImage:nil forBarMetrics:UIBarMetricsLandscapePhone];
 }
@@ -1118,7 +1131,7 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
         _actionButton.tintColor = [UIColor clearColor]; // Tint to hide button
     } else {
         _actionButton.enabled = YES;
-        _actionButton.tintColor = nil;
+        _actionButton.tintColor = [UIColor colorWithRed:97/255.0 green:120/255.0 blue:240/255.0 alpha:1];
     }
 	
 }
@@ -1466,7 +1479,7 @@ static void * MWVideoPlayerObservation = &MWVideoPlayerObservation;
         _toolbar.frame = [self frameForToolbarAtOrientation:self.interfaceOrientation];
         if (hidden) _toolbar.frame = CGRectOffset(_toolbar.frame, 0, animatonOffset);
         _toolbar.alpha = alpha;
-
+        
         // Captions
         for (MWZoomingScrollView *page in _visiblePages) {
             if (page.captionView) {
